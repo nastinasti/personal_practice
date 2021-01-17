@@ -7,6 +7,7 @@ import requests
 import re
 
 
+
 class APIProcessor:
     def __init__(self):
         self.url = ""
