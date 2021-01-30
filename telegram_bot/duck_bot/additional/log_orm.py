@@ -1,19 +1,20 @@
 import logging
 
 
-class DuckLogger(logging):
-    def __init__(self):
-        self.logger = logging.getLogger('orm_logger')
-        self.logger.setLevel(logging.INFO)
+class DuckLogger(logging.Logger):
+    def __init__(self, parent):
+        super().__init__(parent.__class__.__name__)
+        self.setLevel(logging.DEBUG)
 
-        self.formatter = logging.Formatter('%(levelname)s: %(message)s')
-        self.fh = logging.FileHandler('advanced.log')
-        self.fh.setLevel(logging.INFO)
-        self.fh.setFormatter(self.formatter)
+        formatter = logging.Formatter(f'%(asktime)s - %(name)s - %(message)s',
+                                      "%Y-%m-%d %H:%M:%S")
+        fh = logging.FileHandler('advanced.log')
+        fh.setLevel(logging.ERROR)
+        fh.setFormatter(formatter)
 
-        self.ch = logging.StreamHandler()
-        self.ch.setLevel(logging.DEBUG)
-        self.ch.setFormatter(self.formatter)
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)
+        ch.setFormatter(formatter)
 
-        self.logger.addHandler(self.fh)
-        self.logger.addHandler(self.ch)
+        self.addHandler(fh)
+        self.addHandler(ch)
