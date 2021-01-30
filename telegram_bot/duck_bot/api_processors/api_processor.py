@@ -2,23 +2,22 @@
 API configuration tunning
 '''
 
-import logging
+from duck_bot.additional.log_orm import DuckLogger
 import requests
-import re
 
 
 
 class APIProcessor:
     def __init__(self):
         self.url = ""
-        self.log = logging.getLogger(__name__)
+        self.log = DuckLogger(self)
         self.breeds = list()
 
     def refresh_data(self):
         try:
             new_data = self._get_data()
         except Exception as e:
-            self.log.error(f'{__name__} - refresh_data - '
+            self.log.error(f'refresh_data -'
                            f'failed to get data from API: '
                            f'{e}')
             return False
@@ -26,7 +25,7 @@ class APIProcessor:
         try:
             clean_data = self._clean_data(raw_data=new_data)
         except Exception as e:
-            self.log.error(f'{__name__} - refresh_data - '
+            self.log.error(f'refresh_data - '
                            f'failed to clean data: '
                            f'{e}')
             return False
@@ -34,11 +33,11 @@ class APIProcessor:
         try:
             self._save_data(data_to_save=clean_data)
         except Exception as e:
-            self.log.error(f'{__name__} - refresh_data - '
+            self.log.error(f'refresh_data - '
                            f'failed to save data: '
                            f'{e}')
             return False
-        self.log.info(f'{__name__} - refresh_data - '
+        self.log.info(f'refresh_data - '
                       f'Done')
         return True
 
@@ -46,7 +45,7 @@ class APIProcessor:
         try:
             response = requests.get(self.url)
         except Exception as e:
-            self.log.error(f'{__name__} - get_fata - '
+            self.log.error(f'get data - '
                            f'received {response.status_code}')
             raise RuntimeError(f'{response.status_code}: {response.text}')
 
