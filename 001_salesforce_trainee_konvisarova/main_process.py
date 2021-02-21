@@ -6,8 +6,11 @@ class MainProcess:
         return self.perfectSquare(5*(row_number**2) + 4) or self.perfectSquare(5*(row_number**2) - 4)
 
     def perfectSquare(self, n):
-        res = int(n ** (1/2))
-        return res * res == n
+        try:
+            res = int(n ** (1/2))
+            return res * res == n
+        except TypeError:
+            raise TypeError('The number is not valid')
 
     def reverse_row(self, row_string):
         return row_string[::-1]
