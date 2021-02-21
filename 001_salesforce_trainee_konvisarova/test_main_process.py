@@ -13,5 +13,10 @@ class TestFileProcessing(unittest.TestCase):
         self.assertFalse(m.perfectSquare(-1))
         self.assertEqual(m.perfectSquare(10), 100)
 
+    def test_reverse_string(self):
+        self.assertEqual(m.reverse_row('Hello World'), 'dlroW olleH')
+        self.assertEqual(m.reverse_row('123456'), '654321')
+
+
 if __name__ == '__main__':
     unittest.main()
